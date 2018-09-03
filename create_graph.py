@@ -14,7 +14,7 @@ print('Time for reading file: ', time1 - time0)
 '''Create a digraph for the task'''
 DG = nx.DiGraph()
 DG.add_edges_from(pairs)
-
+DG.add_edges_from(test_pairs)
 '''Create a undirected graph for computing AA, JC and RA'''
 UDG = nx.Graph()
 UDG.add_edges_from(pairs)
@@ -29,9 +29,7 @@ print("Num. edges: ", nx.number_of_edges(DG))
 nodes = nx.nodes(DG)
 edges = nx.edges(DG)
 non_edges = nx.non_edges(DG)
-test_edges = nx.edges(test_pairs)
 '''Compute HAA, HJC and HRA'''
-count = 0
 HAA = []
 HJC = []
 HRA = []
@@ -71,7 +69,7 @@ def compute(edge_set=edges):
 
 
 # compute(edges)
-compute(test_edges)
+compute(test_pairs)
 time3 = timeit.default_timer()
 
 print('Time for calculating features: ', time3 - time2)
