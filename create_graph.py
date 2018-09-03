@@ -36,14 +36,20 @@ HAA = []
 HJC = []
 HRA = []
 for e in edges:
+    try:
+        AA = nx.adamic_adar_index(UDG, [e])
+    except ZeroDivisionError:
+        AA = 0
 
-    if count == 10:
-        break
-    count += 1
+    try:
+        JC = nx.jaccard_coefficient(UDG, [e])
+    except ZeroDivisionError:
+        JC = 0
 
-    AA = nx.adamic_adar_index(UDG, [e])
-    JC = nx.jaccard_coefficient(UDG, [e])
-    RA = nx.resource_allocation_index(UDG, [e])
+    try:
+        RA = nx.resource_allocation_index(UDG, [e])
+    except ZeroDivisionError:
+        RA = 0
     SD = DG.in_degree(e[1]) - DG.in_degree(e[0])  # specificity_difference
     if SD < 0:
         HAA.append(0)
