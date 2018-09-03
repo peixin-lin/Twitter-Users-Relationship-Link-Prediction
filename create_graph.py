@@ -62,4 +62,4 @@ time3 = timeit.default_timer()
 print('Time for calculating features: ', time3 - time2)
 
 # Store the feature scores
-np.savez_compressed("features_positive", HAA=HAA, HJC=HJC, HRA=HRA)
+np.savez_compressed("features_positive_10", HAA=HAA, HJC=HJC, HRA=HRA)
