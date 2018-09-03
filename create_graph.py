@@ -14,7 +14,7 @@ print('Time for reading file: ', time1 - time0)
 DG = nx.DiGraph()
 DG.add_edges_from(pairs)
 
-# Create a undirected graph for computing AA, CN and RA
+# Create a undirected graph for computing AA, JC and RA
 UDG = nx.Graph()
 UDG.add_edges_from(pairs)
 
@@ -28,11 +28,12 @@ print("Num. edges: ", nx.number_of_edges(DG))
 nodes = nx.nodes(DG)
 edges = nx.edges(DG)
 non_edges = nx.non_edges(DG)
+edges = nx.edges(UDG)
 
-# Compute HAA, HCN and HRA
+# Compute HAA, HJC and HRA
 count = 0
 HAA = []
-HCN = []
+HJC = []
 HRA = []
 for e in edges:
 
@@ -40,26 +41,25 @@ for e in edges:
         break
     count += 1
 
-    print(DG.in_degree(e[0]))
     AA = nx.adamic_adar_index(UDG, [e])
-    CN = nx.cn_soundarajan_hopcroft(UDG, [e])
+    JC = nx.jaccard_coefficient(UDG, [e])
     RA = nx.resource_allocation_index(UDG, [e])
     SD = DG.in_degree(e[1]) - DG.in_degree(e[0])  # specificity_difference
     if SD < 0:
         HAA.append(0)
-        HCN.append(0)
+        HJC.append(0)
         HRA.append(0)
     else:
         for u, v, p in AA:
             HAA.append(p)
-        for u, v, p in CN:
-            HAA.append(p)
+        for u, v, p in JC:
+            HJC.append(p)
         for u, v, p in RA:
-            HAA.append(p)
+            HRA.append(p)
 
 time3 = timeit.default_timer()
 
 print('Time for calculating features: ', time3 - time2)
 
 # Store the feature scores
-np.savez_compressed("features_positive", HAA=HAA, HCN=HCN, HRA=HRA)
+np.savez_compressed("features_positive", HAA=HAA, HJC=HJC, HRA=HRA)
