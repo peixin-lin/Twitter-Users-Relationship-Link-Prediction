@@ -29,8 +29,7 @@ print("Num. edges: ", nx.number_of_edges(DG))
 nodes = nx.nodes(DG)
 edges = nx.edges(DG)
 non_edges = nx.non_edges(DG)
-edges = nx.edges(UDG)
-
+test_edges = nx.edges(test_pairs)
 '''Compute HAA, HJC and HRA'''
 count = 0
 HAA = []
@@ -38,8 +37,8 @@ HJC = []
 HRA = []
 
 
-def compute(pair_set=edges):
-    for e in pair_set:
+def compute(edge_set=edges):
+    for e in edge_set:
         AA = nx.adamic_adar_index(UDG, [e])
         JC = nx.jaccard_coefficient(UDG, [e])
         RA = nx.resource_allocation_index(UDG, [e])
@@ -72,7 +71,7 @@ def compute(pair_set=edges):
 
 
 # compute(edges)
-compute(test_pairs)
+compute(test_edges)
 time3 = timeit.default_timer()
 
 print('Time for calculating features: ', time3 - time2)
