@@ -6,7 +6,6 @@ time0 = timeit.default_timer()
 '''Read the pairs'''
 with np.load('filtered_data.npz') as fd:
     pairs = fd['pairs']
-    test_pairs = fd['test_pairs']
 
 time1 = timeit.default_timer()
 print('Time for reading file: ', time1 - time0)
@@ -33,50 +32,43 @@ HAA = []
 HJC = []
 HRA = []
 
+for e in edges:
+    AA = nx.adamic_adar_index(UDG, [e])
+    JC = nx.jaccard_coefficient(UDG, [e])
+    RA = nx.resource_allocation_index(UDG, [e])
+    SD = DG.in_degree(e[1]) - DG.in_degree(e[0])  # specificity_difference
+    if SD < 0:
+        HAA.append(0)
+        HJC.append(0)
+        HRA.append(0)
+    else:
+        try:
+            for u, v, p in AA:
+                HAA.append(p)
+        except ZeroDivisionError:
+                HAA.append(0)
+                pass
 
-def compute(edge_set=edges):
-    for e in edge_set:
-        AA = nx.adamic_adar_index(UDG, [e])
-        JC = nx.jaccard_coefficient(UDG, [e])
-        RA = nx.resource_allocation_index(UDG, [e])
-        SD = DG.in_degree(e[1]) - DG.in_degree(e[0])  # specificity_difference
-        if SD < 0:
-            HAA.append(0)
-            HJC.append(0)
-            HRA.append(0)
-        else:
-            try:
-                for u, v, p in AA:
-                    HAA.append(p)
-            except ZeroDivisionError:
-                    HAA.append(0)
-                    pass
+        try:
+            for u, v, p in JC:
+                HJC.append(p)
+        except ZeroDivisionError:
+                HJC.append(0)
+                pass
 
-            try:
-                for u, v, p in JC:
-                    HJC.append(p)
-            except ZeroDivisionError:
-                    HJC.append(0)
-                    pass
-
-            try:
-                for u, v, p in RA:
-                    HRA.append(p)
-            except ZeroDivisionError:
-                    HRA.append(0)
-                    pass
+        try:
+            for u, v, p in RA:
+                HRA.append(p)
+        except ZeroDivisionError:
+                HRA.append(0)
+                pass
 
 
-# compute(edges)
-compute(test_pairs)
 time3 = timeit.default_timer()
 
 print('Time for calculating features: ', time3 - time2)
 
 '''Store the feature scores'''
+np.savez_compressed("train_features_positive", HAA=HAA, HJC=HJC, HRA=HRA)
 
-# np.savez_compressed("features_positive", HAA=HAA, HJC=HJC, HRA=HRA)
-
-# np.savez_compressed("train_features_positive", HAA=HAA, HJC=HJC, HRA=HRA)
-np.savez_compressed("test_features", HAA=HAA, HJC=HJC, HRA=HRA)
 

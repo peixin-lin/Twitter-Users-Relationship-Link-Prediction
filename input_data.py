@@ -72,13 +72,14 @@ with open("../data/train.txt") as trainfile:
             print(i)
 
 test_pairs = []
-
+test_id = []
 with open("../data/test-public.txt") as testfile:
     for i, line in enumerate(testfile):
         if i == 0:
             continue
         line_list = [int(k) for k in line[:-1].split("\t")]
-        test_pairs.append([line_list[0], total_dict[line_list[1]], total_dict[line_list[2]]])
+        test_id.append(line_list[0])
+        test_pairs.append((total_dict[line_list[1]], total_dict[line_list[2]]))
 
 np.savez_compressed("filtered_data", correspondence = total_array, pairs = pairs, test_pairs = test_pairs)
 
