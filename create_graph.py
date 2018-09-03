@@ -6,7 +6,7 @@ time0 = timeit.default_timer()
 '''Read the pairs'''
 with np.load('filtered_data.npz') as fd:
     pairs = fd['pairs']
-    test_pairs = fd
+    test_pairs = fd['test_pairs']
 
 time1 = timeit.default_timer()
 print('Time for reading file: ', time1 - time0)
@@ -59,7 +59,7 @@ for e in edges:
         except ZeroDivisionError:
                 HJC.append(0)
                 pass
-            
+
         try:
             for u, v, p in RA:
                 HRA.append(p)
