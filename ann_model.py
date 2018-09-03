@@ -8,10 +8,12 @@ with np.load('features_positive_10') as fp:
     HAA = fp['HAA']
     HJC = fp['HJC']
     HRA = fp['HRA']
-
+fea
 # create input function
 def input_evaluation_set():
-    features = {}
+    features = {'HAA': np.array([]),
+                'HJC': np.array([]),
+                'HRA': np.array([])}
     labels = np.array([0, 1])
     return features, labels
 
