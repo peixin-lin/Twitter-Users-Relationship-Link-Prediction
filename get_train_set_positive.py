@@ -14,7 +14,6 @@ print('Time for reading file: ', time1 - time0)
 '''Create a digraph for the task'''
 DG = nx.DiGraph()
 DG.add_edges_from(pairs)
-DG.add_edges_from(test_pairs)
 '''Create a undirected graph for computing AA, JC and RA'''
 UDG = nx.Graph()
 UDG.add_edges_from(pairs)
