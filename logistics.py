@@ -32,6 +32,7 @@ test_features = {'HAA': np.array(HAA_test),
                  'HJC': np.array(HJC_test),
                  'HRA': np.array(HRA_test)}
 
+# logsitic regression
 from sklearn.linear_model import LogisticRegression
 clf = LogisticRegression(C=1)
 clf.fit(train_features, train_labels)          
