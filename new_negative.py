@@ -50,7 +50,7 @@ HAA = []
 HJC = []
 HRA = []
 SD = []
-for i in range(100000):
+for i in range(500000):
     if i % 10000 == 0:
         print('Sorted instances selected: ', i)
 
@@ -87,4 +87,4 @@ time3 = timeit.default_timer()
 print('Time for calculating features: ', time3 - time2)
 
 '''Store the feature scores'''
-np.savez_compressed("new_negative", HAA=HAA, HJC=HJC, HRA=HRA, SD=SD)
+np.savez_compressed("new_negative_500k", HAA=HAA, HJC=HJC, HRA=HRA, SD=SD)

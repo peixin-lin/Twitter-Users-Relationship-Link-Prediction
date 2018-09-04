@@ -8,7 +8,7 @@ with np.load('filtered_data.npz') as fd:
     pairs = fd['pairs']
 
 test_pairs = []
-with open("../data/test-public.txt") as testfile:
+with open("./data/test-public.txt") as testfile:
     for i, line in enumerate(testfile):
         if i == 0:
             continue

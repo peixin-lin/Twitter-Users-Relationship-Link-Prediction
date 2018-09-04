@@ -1,5 +1,7 @@
 import tensorflow as tf
 import numpy as np
+import pandas as pd
+
 
 # tf.logging.set_verbosity(tf.logging.INFO)
 
@@ -130,13 +132,18 @@ print('\nTest set accuracy: {accuracy:0.3f}\n'.format(**eval_result))
 # Making Predictions
 predictions = estimator.predict(input_fn=lambda:eval_input_fn(test_features, None, 128))
 i = 0
-print('id ', 'class ', 'probability')
+id_list = []
+prediction_list = []
+print('id ', 'probability')
 for p in predictions:
     i += 1
     class_id = p['class_ids'][0]
-    probability = p['probabilities'][class_id]
-    print(i, " ", class_id, " ", probability)
+    probability = p['probabilities'][1]
+    id_list.append(i)
+    prediction_list.append(probability)
+    print(i, " " , probability)
 
-# print('id: ',i, '  class: ', class_id, '  probability: ', probability)
+dataframe = pd.DataFrame({'Id':id_list,'Prediction':prediction_list})
+dataframe.to_csv("prediction.csv",index=False,sep=',')
 
 
