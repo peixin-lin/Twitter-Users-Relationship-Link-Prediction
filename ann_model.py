@@ -69,7 +69,8 @@ train_features = {'HAA': np.array(feature_HAA[2000:]),
 
 print("the size of training set",len(feature_HAA))
 
-train_labels = merge_data([1 for x in range(len(HAA_train_positive))],[0 for x in range(len(HAA_train_negative))])[2000:]
+train_labels = merge_data([1 for x in range(len(HAA_train_positive))],
+                          [0 for x in range(len(HAA_train_negative))])[2000:]
 print('the size of the label set', len(train_labels))
 
 
@@ -89,7 +90,8 @@ print('the size of test set', len(HAA_test))
 eval_features = {'HAA': np.array(feature_HAA[:1999]),
                  'HJC': np.array(feature_HJC[:1999]),
                  'HRA': np.array(feature_HRA[:1999])}
-eval_labels = merge_data([1 for x in range(len(HAA_train_positive))],[0 for x in range(len(HAA_train_negative))])[:1999]
+eval_labels = merge_data([1 for x in range(len(HAA_train_positive))],
+                         [0 for x in range(len(HAA_train_negative))])[:1999]
 
 
 # Define the feature column (describe how to use the features)

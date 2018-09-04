@@ -26,15 +26,20 @@ print('Time for creating graphs: ', time2 - time1)
 non_edges = nx.non_edges(UDG)
 candidates = pq()
 count = 0
+selected = 0
 for ne in non_edges:
     AA = nx.adamic_adar_index(UDG, [ne])
+    count += 1
+    if selected == 10000000:
+        break
     try:
         for u, v, p in AA:
-            if p > 0.5:
+            if p > 0.3:
                 candidates.push((u, v), -p)
-                count += 1
+
+                selected += 1
                 if count % 1000 == 0:
-                    print('Unsorted instances selected: ', count)
+                    print('Unsorted instances selected: ', selected, 'out of ', count)
 
     except ZeroDivisionError:
         candidates.push((u, v), 0)
