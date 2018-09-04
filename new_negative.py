@@ -30,7 +30,7 @@ selected = 0
 for ne in non_edges:
     AA = nx.adamic_adar_index(UDG, [ne])
     count += 1
-    if selected == 8000000:
+    if selected == 800000:
         break
     if count % 6 == 0:
         try:
@@ -50,7 +50,7 @@ HAA = []
 HJC = []
 HRA = []
 SD = []
-for i in range(5000000):
+for i in range(500000):
     if i % 10000 == 0:
         print('Sorted instances selected: ', i)
 

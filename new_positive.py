@@ -25,14 +25,20 @@ print("Num. edges: ", nx.number_of_edges(DG))
 
 '''Get nodes edges, and non-edges'''
 nodes = nx.nodes(DG)
-edges = nx.edges(DG)
+edges = nx.edges(UDG)
 non_edges = nx.non_edges(DG)
 '''Compute HAA, HJC and HRA'''
 HAA = []
 HJC = []
 HRA = []
 SD = []
+count = 0
 for e in edges:
+    if count == 500000:
+        break
+    if count % 1000 == 0:
+        print(count)
+    count += 1
     AA = nx.adamic_adar_index(UDG, [e])
     JC = nx.jaccard_coefficient(UDG, [e])
     RA = nx.resource_allocation_index(UDG, [e])
