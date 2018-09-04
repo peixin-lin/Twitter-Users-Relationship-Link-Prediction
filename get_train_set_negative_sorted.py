@@ -33,7 +33,8 @@ for ne in non_edges:
             if p > 0.5:
                 candidates.push((u, v), -p)
                 count += 1
-                print('Unsorted instances selected: ', count)
+                if count % 1000 == 0:
+                    print('Unsorted instances selected: ', count)
 
     except ZeroDivisionError:
         candidates.push((u, v), 0)
@@ -46,7 +47,8 @@ HJC = []
 HRA = []
 
 for i in range(5000000):
-    print('Sorted instances selected: ', i)
+    if i % 1000 == 0:
+        print('Sorted instances selected: ', i)
     e = candidates.pop()
     AA = nx.adamic_adar_index(UDG, [e])
     JC = nx.jaccard_coefficient(UDG, [e])

@@ -101,7 +101,7 @@ HRA = tf.feature_column.numeric_column('HRA')
 estimator = tf.estimator.DNNClassifier(
     feature_columns=[HAA, HJC, HRA],
     # Two hidden layers of 10 nodes each.
-    hidden_units=[1024,512,256,128,64],
+    hidden_units=[16,32,16],
     # The model must choose between 3 classes.
     n_classes=2
 )
@@ -109,7 +109,7 @@ estimator = tf.estimator.DNNClassifier(
 # Train the Model.
 estimator.train(
     input_fn=lambda: train_input_fn(train_features, train_labels, 128),
-    steps=1000)
+    steps=500)
 
 eval_result = estimator.evaluate(
     input_fn=lambda: eval_input_fn(eval_features, eval_labels, 128))
@@ -117,14 +117,14 @@ eval_result = estimator.evaluate(
 print('\nTest set accuracy: {accuracy:0.3f}\n'.format(**eval_result))
 
 # Making Predictions
-# predictions = estimator.predict(input_fn=lambda:eval_input_fn(test_features, None, 256))
-# i = 0
-# print('id ', 'class ', 'probability')
-# for p in predictions:
-#     i += 1
-#     class_id = p['class_ids'][0]
-#     probability = p['probabilities'][class_id]
-#     print(i, " ", class_id, " ", probability)
+predictions = estimator.predict(input_fn=lambda:eval_input_fn(eval_features, None, 128))
+i = 0
+print('id ', 'class ', 'probability')
+for p in predictions:
+    i += 1
+    class_id = p['class_ids'][0]
+    probability = p['probabilities'][class_id]
+    print(i, " ", class_id, " ", probability, " ", eval_labels[i-1])
 
 # print('id: ',i, '  class: ', class_id, '  probability: ', probability)
 
