@@ -1,5 +1,5 @@
 import numpy as np 
-import matplotlib.pylot as plt 
+# import matplotlib.pylot as plt 
 
 # load the training data
 with np.load('get_train_set_positive.npz') as fp:
