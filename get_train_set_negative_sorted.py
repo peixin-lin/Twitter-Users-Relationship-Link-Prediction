@@ -1,7 +1,7 @@
 import networkx as nx
 import numpy as np
 import timeit
-import priority_queue as pq
+from priority_queue import PriorityQueue as pq
 
 time0 = timeit.default_timer()
 '''Read the pairs'''
@@ -78,4 +78,4 @@ time3 = timeit.default_timer()
 print('Time for calculating features: ', time3 - time2)
 
 '''Store the feature scores'''
-np.savez_compressed("train_features_negative", HAA=HAA, HJC=HJC, HRA=HRA)
+np.savez_compressed("train_features_negative_sorted", HAA=HAA, HJC=HJC, HRA=HRA)
