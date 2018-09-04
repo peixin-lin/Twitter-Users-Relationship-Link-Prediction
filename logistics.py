@@ -2,12 +2,12 @@ import numpy as np
 # import matplotlib.pylot as plt 
 
 # load the training data
-with np.load('get_train_set_positive.npz') as fp:
+with np.load('features_positive.npz') as fp:
     HAA_train_positive = fp['HAA']
     HJC_train_positive = fp['HJC']
     HRA_train_positive = fp['HRA']
 
-with np.load('get_train_set_negative.npz') as fn:
+with np.load('train_features_negative.npz') as fn:
     HAA_train_negative = fn['HAA']
     HJC_train_negative = fn['HJC']
     HRA_train_negative = fn['HRA']
