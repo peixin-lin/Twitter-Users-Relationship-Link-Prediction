@@ -45,16 +45,19 @@ def merge_data(data_1, data_2):
         data+=data_2[i+1:]
     return data
 
+
 # load the training data
-with np.load('features_positive.npz') as fp:
+with np.load('new_positive_100k.npz') as fp:
     HAA_train_positive = fp['HAA']
     HJC_train_positive = fp['HJC']
     HRA_train_positive = fp['HRA']
+    SD_train_positive = fp['SD']
 
-with np.load('train_features_negative.npz') as fn:
+with np.load('new_negative_100k.npz') as fn:
     HAA_train_negative = fn['HAA']
     HJC_train_negative = fn['HJC']
     HRA_train_negative = fn['HRA']
+    SD_train_negative = fn['SD']
 
 print('the size of positive set: ', len(HAA_train_positive))
 print('the size of negative set: ', len(HAA_train_negative))
@@ -62,34 +65,39 @@ print('the size of negative set: ', len(HAA_train_negative))
 feature_HAA = merge_data(list(HAA_train_positive), list(HAA_train_negative))
 feature_HJC = merge_data(list(HJC_train_positive), list(HJC_train_negative))
 feature_HRA = merge_data(list(HRA_train_positive), list(HJC_train_negative))
+feature_SD = merge_data(list(SD_train_positive), list(SD_train_negative))
 
-train_features = {'HAA': np.array(feature_HAA[2000:]),
-                  'HJC': np.array(feature_HJC[2000:]),
-                  'HRA': np.array(feature_HRA[2000:])}
+train_features = {'HAA': np.array(feature_HAA[2000:200000]),
+                  'HJC': np.array(feature_HJC[2000:200000]),
+                  'HRA': np.array(feature_HRA[2000:200000]),
+                  'SD': np.array(feature_SD[2000:2000000])}
 
 print("the size of training set",len(feature_HAA))
 
 train_labels = merge_data([1 for x in range(len(HAA_train_positive))],
-                          [0 for x in range(len(HAA_train_negative))])[2000:]
+                          [0 for x in range(len(HAA_train_negative))])[2000:200000]
 print('the size of the label set', len(train_labels))
 
 
 # load the test data
-with np.load('test_features.npz') as tft:
+with np.load('new_test.npz') as tft:
     HAA_test = tft['HAA']
     HJC_test = tft['HJC']
     HRA_test = tft['HRA']
+    SD_test = tft['SD']
 
 test_features = {'HAA': np.array(HAA_test),
                  'HJC': np.array(HJC_test),
-                 'HRA': np.array(HRA_test)}
+                 'HRA': np.array(HRA_test),
+                 'SD': np.array(SD_test)}
 print('the size of test set', len(HAA_test))
 
 
 # load the eval data
 eval_features = {'HAA': np.array(feature_HAA[:1999]),
                  'HJC': np.array(feature_HJC[:1999]),
-                 'HRA': np.array(feature_HRA[:1999])}
+                 'HRA': np.array(feature_HRA[:1999]),
+                 'SD': np.array(feature_SD[:1999])}
 eval_labels = merge_data([1 for x in range(len(HAA_train_positive))],
                          [0 for x in range(len(HAA_train_negative))])[:1999]
 
@@ -98,10 +106,11 @@ eval_labels = merge_data([1 for x in range(len(HAA_train_positive))],
 HAA = tf.feature_column.numeric_column('HAA')
 HJC = tf.feature_column.numeric_column('HJC')
 HRA = tf.feature_column.numeric_column('HRA')
+SD = tf.feature_column.numeric_column('SD')
 
 # Instantiate an estimator(2 hidden layer DNN with 10, 10 units respectively), passing the feature columns.
 estimator = tf.estimator.DNNClassifier(
-    feature_columns=[HAA, HJC, HRA],
+    feature_columns=[HAA, HJC, HRA, SD],
     # Two hidden layers of 10 nodes each.
     hidden_units=[16,32,16],
     # The model must choose between 3 classes.
@@ -119,14 +128,14 @@ eval_result = estimator.evaluate(
 print('\nTest set accuracy: {accuracy:0.3f}\n'.format(**eval_result))
 
 # Making Predictions
-predictions = estimator.predict(input_fn=lambda:eval_input_fn(eval_features, None, 128))
+predictions = estimator.predict(input_fn=lambda:eval_input_fn(test_features, None, 128))
 i = 0
 print('id ', 'class ', 'probability')
 for p in predictions:
     i += 1
     class_id = p['class_ids'][0]
     probability = p['probabilities'][class_id]
-    print(i, " ", class_id, " ", probability, " ", eval_labels[i-1])
+    print(i, " ", class_id, " ", probability)
 
 # print('id: ',i, '  class: ', class_id, '  probability: ', probability)
 

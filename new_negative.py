@@ -1,7 +1,7 @@
 import networkx as nx
 import numpy as np
 import timeit
-import priority_queue as pq
+from priority_queue import PriorityQueue as pq
 
 time0 = timeit.default_timer()
 '''Read the pairs'''
@@ -50,7 +50,7 @@ HAA = []
 HJC = []
 HRA = []
 SD = []
-for i in range(500000):
+for i in range(100000):
     if i % 10000 == 0:
         print('Sorted instances selected: ', i)
 

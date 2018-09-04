@@ -2,6 +2,7 @@ import networkx as nx
 import numpy as np
 import timeit
 
+
 time0 = timeit.default_timer()
 '''Read the pairs'''
 with np.load('filtered_data.npz') as fd:
@@ -34,7 +35,7 @@ HRA = []
 SD = []
 count = 0
 for e in edges:
-    if count == 500000:
+    if count == 100000:
         break
     if count % 1000 == 0:
         print(count)
