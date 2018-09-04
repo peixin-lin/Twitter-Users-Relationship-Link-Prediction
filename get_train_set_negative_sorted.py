@@ -30,19 +30,20 @@ selected = 0
 for ne in non_edges:
     AA = nx.adamic_adar_index(UDG, [ne])
     count += 1
-    if selected == 10000000:
+    if selected == 8000000:
         break
-    try:
-        for u, v, p in AA:
-            if p > 0.3:
+    if count % 6 == 0:
+        try:
+            for u, v, p in AA:
                 candidates.push((u, v), -p)
                 selected += 1
                 if count % 10000 == 0:
                     print('Unsorted instances selected: ', selected, 'out of ', count)
 
-    except ZeroDivisionError:
-        candidates.push((u, v), 0)
-        pass
+        except ZeroDivisionError:
+            candidates.push((u, v), 0)
+            pass
+
 
 
 '''Compute HAA, HJC and HRA'''
