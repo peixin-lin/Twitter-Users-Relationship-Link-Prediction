@@ -42,11 +42,11 @@ HRA = []
 SD = []
 for e in test_pairs:
     if not DG.has_node(e[0]):
-        DG.add_nodes_from(e[0])
-        UDG.add_nodes_from(e[0])
+        DG.add_node(e[0])
+        UDG.add_node(e[0])
     if not DG.has_node(e[1]):
-        DG.add_nodes_from(e[1])
-        UDG.add_nodes_from(e[1])
+        DG.add_node(e[1])
+        UDG.add_node(e[1])
     AA = nx.adamic_adar_index(UDG, [e])
     JC = nx.jaccard_coefficient(UDG, [e])
     RA = nx.resource_allocation_index(UDG, [e])
