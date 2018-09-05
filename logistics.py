@@ -49,8 +49,3 @@ clf.fit(X, train_labels)
 from sklearn.metrics import accuracy_score
 test_pred = clf.predict(Y)
 accuracy_score(Y, test_pred.round(), normalize=False)
-
-# print(test_pred)
-# for x in test_pred:
-#     print(test_pred[])
-
