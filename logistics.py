@@ -1,5 +1,4 @@
-import numpy as np 
-# import matplotlib.pylot as plt 
+import numpy as np
 
 # load the training data
 with np.load('features_positive.npz') as fp:
@@ -19,24 +18,41 @@ train_features = {'HAA': np.array(feature_HAA),
                   'HJC': np.array(feature_HJC),
                   'HRA': np.array(feature_HRA)}
 
-train_labels = np.array([1 for x in range(len(HAA_train_positive))]
+train = np.matrix([feature_HAA, feature_HJC, feature_HRA]).T
+
+train_labels = np.transpose([1 for x in range(len(HAA_train_positive))]
                         + [0 for x in range(len(HAA_train_negative))])
 
-# load the test data
-with np.load('test_features.npz') as tft:
-    HAA_test = tft['HAA']
-    HJC_test = tft['HJC']
-    HRA_test = tft['HRA']
-
-test_features = {'HAA': np.array(HAA_test),
-                 'HJC': np.array(HJC_test),
-                 'HRA': np.array(HRA_test)}
-
-# logsitic regression
+from sklearn.model_selection import train_test_split
+X_train, X_test, Y_train, Y_test = train_test_split(train, train_labels)
 from sklearn.linear_model import LogisticRegression
 clf = LogisticRegression(C=1)
-clf.fit(train_features, train_labels)          
+clf.fit(X_train, Y_train)          
 
 from sklearn.metrics import accuracy_score
-test_pred = clf.predict(test_features)
-accuracy_score(test_features, test_pred)
+Y_test_pred = clf.predict(X_test)
+print(accuracy_score(Y_test, Y_test_pred))
+
+
+
+# load the test data
+
+#with np.load('test_features.npz') as tft:
+#    HAA_test = tft['HAA']
+#    HJC_test = tft['HJC']
+#    HRA_test = tft['HRA']
+    
+#test_features = {'HAA': np.array(HAA_test),
+#                 'HJC': np.array(HJC_test),
+#                 'HRA': np.array(HRA_test)} 
+
+#test = np.matrix([HAA_test, HJC_test, HRA_test]).T 
+
+# print (test)
+# print(test.shape)
+
+# a = np.array(test)
+# b = a.ravel()
+# print(b)
+# print(len(b))
+# logsitic regression
