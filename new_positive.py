@@ -5,7 +5,7 @@ import timeit
 
 time0 = timeit.default_timer()
 '''Read the pairs'''
-with np.load('filtered_data.npz') as fd:
+with np.load('original_pairs.npz') as fd:
     pairs = fd['pairs']
 
 time1 = timeit.default_timer()
