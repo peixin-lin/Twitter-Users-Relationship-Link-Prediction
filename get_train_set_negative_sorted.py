@@ -23,16 +23,27 @@ time2 = timeit.default_timer()
 print('Time for creating graphs: ', time2 - time1)
 
 '''Get nodes edges, and non-edges'''
-non_edges = nx.non_edges(DG)
+non_edges = nx.non_edges(UDG)
 candidates = pq()
+count = 0
+selected = 0
 for ne in non_edges:
     AA = nx.adamic_adar_index(UDG, [ne])
-    try:
-        for u, v, p in AA:
-            candidates.push((u,v), -p)
-    except ZeroDivisionError:
-        candidates.push((u, v), 0)
-        pass
+    count += 1
+    if selected == 8000000:
+        break
+    if count % 6 == 0:
+        try:
+            for u, v, p in AA:
+                candidates.push((u, v), -p)
+                selected += 1
+                if count % 10000 == 0:
+                    print('Unsorted instances selected: ', selected, 'out of ', count)
+
+        except ZeroDivisionError:
+            candidates.push((u, v), 0)
+            pass
+
 
 
 '''Compute HAA, HJC and HRA'''
@@ -41,6 +52,9 @@ HJC = []
 HRA = []
 
 for i in range(5000000):
+    if i % 10000 == 0:
+        print('Sorted instances selected: ', i)
+
     e = candidates.pop()
     AA = nx.adamic_adar_index(UDG, [e])
     JC = nx.jaccard_coefficient(UDG, [e])
