@@ -49,13 +49,13 @@ def merge_data(data_1, data_2):
 
 
 # load the training data
-with np.load('new_positive_100k.npz') as fp:
+with np.load('new_positive_500k.npz') as fp:
     HAA_train_positive = fp['HAA']
     HJC_train_positive = fp['HJC']
     HRA_train_positive = fp['HRA']
     SD_train_positive = fp['SD']
 
-with np.load('new_negative_100k.npz') as fn:
+with np.load('new_negative_500k.npz') as fn:
     HAA_train_negative = fn['HAA']
     HJC_train_negative = fn['HJC']
     HRA_train_negative = fn['HRA']
@@ -69,15 +69,15 @@ feature_HJC = merge_data(list(HJC_train_positive), list(HJC_train_negative))
 feature_HRA = merge_data(list(HRA_train_positive), list(HJC_train_negative))
 feature_SD = merge_data(list(SD_train_positive), list(SD_train_negative))
 
-train_features = {'HAA': np.array(feature_HAA[2000:200000]),
-                  'HJC': np.array(feature_HJC[2000:200000]),
-                  'HRA': np.array(feature_HRA[2000:200000]),
-                  'SD': np.array(feature_SD[2000:2000000])}
+train_features = {'HAA': np.array(feature_HAA[2000:10000000]),
+                  'HJC': np.array(feature_HJC[2000:10000000]),
+                  'HRA': np.array(feature_HRA[2000:10000000]),
+                  'SD': np.array(feature_SD[2000:10000000])}
 
 print("the size of training set",len(feature_HAA))
 
 train_labels = merge_data([1 for x in range(len(HAA_train_positive))],
-                          [0 for x in range(len(HAA_train_negative))])[2000:200000]
+                          [0 for x in range(len(HAA_train_negative))])[2000:10000000]
 print('the size of the label set', len(train_labels))
 
 
@@ -96,12 +96,18 @@ print('the size of test set', len(HAA_test))
 
 
 # load the eval data
-eval_features = {'HAA': np.array(feature_HAA[:1999]),
-                 'HJC': np.array(feature_HJC[:1999]),
-                 'HRA': np.array(feature_HRA[:1999]),
-                 'SD': np.array(feature_SD[:1999])}
+eval_features = {'HAA': np.array(feature_HAA[:2000]),
+                 'HJC': np.array(feature_HJC[:2000]),
+                 'HRA': np.array(feature_HRA[:2000]),
+                 'SD': np.array(feature_SD[:2000])}
 eval_labels = merge_data([1 for x in range(len(HAA_train_positive))],
-                         [0 for x in range(len(HAA_train_negative))])[:1999]
+                         [0 for x in range(len(HAA_train_negative))])[:2000]
+
+print('@@@@@@')
+print(np.var(feature_HAA))
+print(np.var(feature_HJC))
+print(np.var(feature_HRA))
+print(np.var(feature_SD))
 
 
 # Define the feature column (describe how to use the features)
@@ -144,6 +150,6 @@ for p in predictions:
     print(i, " " , probability)
 
 dataframe = pd.DataFrame({'Id':id_list,'Prediction':prediction_list})
-dataframe.to_csv("prediction.csv",index=False,sep=',')
+dataframe.to_csv("prediction.csv",index=True,sep=',')
 
 

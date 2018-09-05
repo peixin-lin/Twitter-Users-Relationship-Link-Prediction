@@ -87,4 +87,4 @@ time3 = timeit.default_timer()
 print('Time for calculating features: ', time3 - time2)
 
 '''Store the feature scores'''
-np.savez_compressed("new_negative_500k", HAA=HAA, HJC=HJC, HRA=HRA, SD=SD)
+np.savez_compressed("new_negative_original", HAA=HAA, HJC=HJC, HRA=HRA, SD=SD)

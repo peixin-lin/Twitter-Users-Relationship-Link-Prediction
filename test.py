@@ -1,4 +1,17 @@
 import numpy as np
+# import tensorflow as tf
+#
+# a = tf.Variable([0.1, 0.5])
+# b = tf.Variable([0.1, 0.5])
+#
+# auc = tf.contrib.metrics.streaming_auc(a, b)
+#
+# sess = tf.Session()
+# sess.run(tf.initialize_all_variables())
+# sess.run(tf.initialize_local_variables()) # try commenting this line and you'll get the error
+# train_auc = sess.run(auc)
+#
+# print(train_auc)
 
 with np.load('new_test.npz') as tft:
     HAA_test = tft['HAA']
