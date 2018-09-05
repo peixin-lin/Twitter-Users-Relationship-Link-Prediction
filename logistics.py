@@ -1,5 +1,4 @@
 import numpy as np 
-# import matplotlib.pylot as plt 
 
 # load the training data
 with np.load('features_positive.npz') as fp:
@@ -19,24 +18,39 @@ train_features = {'HAA': np.array(feature_HAA),
                   'HJC': np.array(feature_HJC),
                   'HRA': np.array(feature_HRA)}
 
-train_labels = np.array([1 for x in range(len(HAA_train_positive))]
+# np.column_stack(feature_HAA, feature_HJC, feature_HRA)
+X = np.matrix([feature_HAA, feature_HJC, feature_HRA]).T
+print(X.shape)
+
+# X.T = np.transpose(feature_HAA, feature_HJC, feature_HRA)
+
+train_labels = np.transpose([1 for x in range(len(HAA_train_positive))]
                         + [0 for x in range(len(HAA_train_negative))])
 
+# print(train_labels.shape)
 # load the test data
 with np.load('test_features.npz') as tft:
     HAA_test = tft['HAA']
     HJC_test = tft['HJC']
     HRA_test = tft['HRA']
-
+    
 test_features = {'HAA': np.array(HAA_test),
                  'HJC': np.array(HJC_test),
-                 'HRA': np.array(HRA_test)}
+                 'HRA': np.array(HRA_test)} 
+
+Y = np.matrix([HAA_test, HJC_test, HRA_test]).T 
+print(Y.shape)
 
 # logsitic regression
 from sklearn.linear_model import LogisticRegression
 clf = LogisticRegression(C=1)
-clf.fit(train_features, train_labels)          
+clf.fit(X, train_labels)          
 
 from sklearn.metrics import accuracy_score
-test_pred = clf.predict(test_features)
-accuracy_score(test_features, test_pred)
+test_pred = clf.predict(Y)
+accuracy_score(Y, test_pred.round(), normalize=False)
+
+# print(test_pred)
+# for x in test_pred:
+#     print(test_pred[])
+
