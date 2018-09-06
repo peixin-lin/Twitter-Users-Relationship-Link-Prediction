@@ -35,7 +35,7 @@ HRA = []
 SD = []
 count = 0
 for e in edges:
-    if count == 500000:
+    if count == 30000:
         break
     if count % 1000 == 0:
         print(count)

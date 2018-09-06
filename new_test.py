@@ -6,15 +6,14 @@ time0 = timeit.default_timer()
 '''Read the pairs'''
 with np.load('original_pairs.npz') as fd:
     pairs = fd['pairs']
-    test_pairs = fd['test_pairs']
 
-# test_pairs = []
-# with open("./data/test-public.txt") as testfile:
-#     for i, line in enumerate(testfile):
-#         if i == 0:
-#             continue
-#         line_list = [int(k) for k in line[:-1].split("\t")]
-#         test_pairs.append((line_list[1], line_list[2]))
+test_pairs = []
+with open("./data/test-public.txt") as testfile:
+    for i, line in enumerate(testfile):
+        if i == 0:
+            continue
+        line_list = [int(k) for k in line[:-1].split("\t")]
+        test_pairs.append((line_list[1], line_list[2]))
 
 time1 = timeit.default_timer()
 print('Time for reading file: ', time1 - time0)

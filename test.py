@@ -13,12 +13,13 @@ import numpy as np
 #
 # print(train_auc)
 
-with np.load('new_test.npz') as tft:
+with np.load('new_negative_original.npz') as tft:
     HAA_test = tft['HAA']
     HJC_test = tft['HJC']
     HRA_test = tft['HRA']
     SD_test = tft['SD']
 
+print(len(HAA_test))
 print(np.var(HAA_test))
 print(np.var(HJC_test))
 print(np.var(HRA_test))
