@@ -8,7 +8,7 @@ with np.load('original_pairs.npz') as fd:
     pairs = fd['pairs']
 
 test_pairs = []
-with open("../data/test-public.txt") as testfile:
+with open("./data/test-public.txt") as testfile:
     for i, line in enumerate(testfile):
         if i == 0:
             continue
@@ -77,4 +77,4 @@ time3 = timeit.default_timer()
 print('Time for calculating features: ', time3 - time2)
 
 '''Store the feature scores'''
-np.savez_compressed("new_test", HAA=HAA, HJC=HJC, HRA=HRA, SD=SD)
+np.savez_compressed("new_test_original", HAA=HAA, HJC=HJC, HRA=HRA, SD=SD)

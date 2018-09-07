@@ -2,6 +2,7 @@ import networkx as nx
 import numpy as np
 import timeit
 
+
 time0 = timeit.default_timer()
 '''Read the pairs'''
 with np.load('original_pairs.npz') as fd:
@@ -34,7 +35,7 @@ HRA = []
 SD = []
 count = 0
 for e in edges:
-    if count == 500000:
+    if count == 30000:
         break
     if count % 1000 == 0:
         print(count)
@@ -71,6 +72,6 @@ time3 = timeit.default_timer()
 print('Time for calculating features: ', time3 - time2)
 
 '''Store the feature scores'''
-np.savez_compressed("new_positive", HAA=HAA, HJC=HJC, HRA=HRA, SD=SD)
+np.savez_compressed("new_positive_original", HAA=HAA, HJC=HJC, HRA=HRA, SD=SD)
 
 
