@@ -28,11 +28,24 @@ X_train = np.matrix([feature_HJC]).T
 Y_train = np.transpose([1 for x in range(len(HAA_train_positive))]
                         + [0 for x in range(len(HAA_train_negative))])
 
+''' cross validation'''
 # from sklearn.model_selection import train_test_split
-# X_train, X_test, Y_train, Y_test = train_test_split(train, train_labels)
+# X_train, X_test, Y_train, Y_test = train_test_split(X_train, Y_train)
+# from sklearn.linear_model import LogisticRegression
+# clf = LogisticRegression(C=1, penalty='l2')
+# clf.fit(X_train, Y_train)          
+# from sklearn.metrics import accuracy_score
+# Y_test_pred = clf.predict(X_test)
+# print('cross validation result: ', accuracy_score(Y_test, Y_test_pred))
+''' cross validation'''
+
+''' training '''
+from sklearn.model_selection import train_test_split
+X_train, X_test, Y_train, Y_test = train_test_split(X_train, Y_train)
 from sklearn.linear_model import LogisticRegression
-clf = LogisticRegression(C=1)
-clf.fit(X_train, Y_train)          
+clf = LogisticRegression(C=1, penalty='l2')
+clf.fit(X_train, Y_train) 
+''' training '''
 
 with np.load('new_test_original.npz') as tft:
     HAA_test = tft['HAA']
@@ -57,3 +70,5 @@ for i in test_pred:
     result.append(i[1])
 dataframe = pd.DataFrame({'Id':id_list, 'Prediction':result})
 dataframe.to_csv("prediction.csv", index=False, sep=',')
+
+
